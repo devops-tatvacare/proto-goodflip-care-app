@@ -2,25 +2,25 @@
 
 ## Project Overview
 
-Next.js 15 healthcare companion app with React 19, TypeScript, Tailwind CSS, and shadcn/ui components. Uses pnpm for package management and implements a strict design system with custom linting rules.
+Next.js 15 healthcare companion app with React 19, TypeScript, Tailwind CSS, and shadcn/ui components. Uses npm for package management and implements a strict design system with custom linting rules.
 
 ## Build, Test, and Lint Commands
 
 ```bash
 # Development
-pnpm dev              # Start development server (port 3000)
-pnpm build            # Production build
-pnpm start            # Start production server
+npm run dev           # Start development server (port 3000)
+npm run build         # Production build
+npm run start         # Start production server
 
 # Linting (run before committing)
-pnpm lint             # ESLint for JavaScript/TypeScript
-pnpm lint:css         # Stylelint for CSS/styles
-pnpm lint:arbitrary   # Check for unannotated arbitrary Tailwind values
-pnpm lint:all         # Run all linters
+npm run lint          # ESLint for JavaScript/TypeScript
+npm run lint:css      # Stylelint for CSS/styles
+npm run lint:arbitrary # Check for unannotated arbitrary Tailwind values
+npm run lint:all      # Run all linters
 
 # Storybook
-pnpm storybook        # Start Storybook on port 6008
-pnpm build-storybook  # Build Storybook static files
+npm run storybook     # Start Storybook on port 6008
+npm run build-storybook # Build Storybook static files
 ```
 
 ## Architecture
@@ -80,7 +80,7 @@ This codebase enforces strict design system usage through automated linting:
 **Tailwind Linting** (`scripts/lint-arbitrary-values.js`):
 - **No unannotated arbitrary values** - `text-[#3b82f6]`, `p-[16px]`, etc. require `/* @allow-arbitrary */` comment
 - Encourages using design system classes: `ds-text-primary`, `ds-p-md`, `ds-rounded-lg`
-- Run with `pnpm lint:arbitrary`
+- Run with `npm run lint:arbitrary`
 
 **ESLint Rules** (`.eslintrc.js`):
 - **Inline styles discouraged** - Use CSS classes or styled-components
@@ -106,7 +106,7 @@ All imports use `@/` alias (defined in `tsconfig.json`):
 ```typescript
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { useVoiceRecording } from "@/hooks/useVoiceRecording"
+import { useVoiceRecordingUnified } from "@/hooks/use-voice-recording-unified"
 ```
 
 ### Component Organization
@@ -119,7 +119,6 @@ import { useVoiceRecording } from "@/hooks/useVoiceRecording"
 ### Voice Recording Pattern
 
 Multiple voice recording hooks exist with different capabilities:
-- `useVoiceRecording.ts` - Base hook
 - `use-voice-recording-unified.ts` - Unified interface
 - `use-voice-recording-with-live-transcription.ts` - Live transcription support
 
@@ -154,7 +153,7 @@ SQLite database helper in `lib/db/sqlite.ts`:
 2. Import design tokens from `@/lib/design-tokens`
 3. Use Tailwind classes with CSS variable references
 4. Ensure no inline styles (unless whitelisted file)
-5. Run `pnpm lint:all` before committing
+5. Run `npm run lint:all` before committing
 
 ### Adding New Design Tokens
 
@@ -181,14 +180,13 @@ const form = useForm({ resolver: zodResolver(schema) })
 - **Next.js**: Build errors ignored (typescript/eslint) - fix warnings in dev
 - **Images**: Unoptimized mode enabled
 - **Webpack**: Custom config removes Sucrase from CSS processing
-- **Sharp**: Pinned to v0.33.5 in pnpm overrides
+- **Sharp**: Pinned to v0.33.5 in npm overrides
 
 ## Development Notes
 
 - **Font**: Manrope variable font loaded from Google Fonts
 - **Icons**: Material Symbols Outlined (loaded via CDN in layout)
 - **Theme**: Dark mode support via class strategy
-- **Instrumentation**: Next.js instrumentation.ts present (ML models removed)
 - **Data**: Sample data in `lib/sample-data.ts`, RAG chunking in `lib/rag/`
 
 ## Storybook Configuration

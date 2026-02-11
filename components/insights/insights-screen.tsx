@@ -29,16 +29,19 @@ import {
 import { useFAB } from '@/contexts/fab-context'
 import { MiniChatOverlay } from '@/components/overlays/mini-chat-overlay'
 import { PromptSelectionOverlay } from '@/components/overlays/prompt-selection-overlay'
+import { DevicesOverlay } from "@/components/overlays/devices-overlay"
 import { getPromptsForMetric, getPromptSelectionTitle, KairaPrompt } from '@/lib/constants/kaira-prompts'
 
 interface InsightsScreenProps {
   onNavigateToAssistant?: (action: string) => void
   initialMetric?: string
+  isZeroStatePreview?: boolean
+  onDeviceInstallerModeChange?: (active: boolean) => void
 }
 
 type InsightScreen = "main" | "detail" | "symptom-logs" | "pdf-viewer" | "diet-detail" | "menstrual-detail"
 
-export function InsightsScreen({ onNavigateToAssistant, initialMetric }: InsightsScreenProps = {}) {
+export function InsightsScreen({ onNavigateToAssistant, initialMetric, isZeroStatePreview = false, onDeviceInstallerModeChange }: InsightsScreenProps = {}) {
   const { toast } = useToast()
   const { updateActionsForMetric, setAskKairaAction, setAskKairaVisible, isPromptSelectionOpen, setIsPromptSelectionOpen } = useFAB()
   const [activeTab, setActiveTab] = useState<"health" | "vitals" | "symptoms">("health")
@@ -50,6 +53,7 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric }: Insight
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [selectedPrompt, setSelectedPrompt] = useState<KairaPrompt | undefined>()
   const [chatPrompts, setChatPrompts] = useState<KairaPrompt[]>([])
+  const [showBcaInstaller, setShowBcaInstaller] = useState(false)
   const metricSelectorRef = useRef<HTMLDivElement>(null)
   const { currentScreen, navigateTo, goBack, getScreenData } = useScreenNavigation<InsightScreen>("main")
 
@@ -342,6 +346,8 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric }: Insight
     return contentMap[selectedMetric] || null
   }
 
+  const isBodyCompositionZeroState = isZeroStatePreview && activeTab === "vitals" && selectedVitalsCategory === "Body Composition"
+
   return (
     <ScreenLayout contentPadding="none">
       <div className="flex flex-col h-full" style={{ background: "var(--app-login-gradient)" }}>
@@ -465,7 +471,7 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric }: Insight
           <div className="flex-1 overflow-hidden">
             {activeTab === 'health' && renderHealthContent()}
             
-            {activeTab === 'vitals' && (
+            {activeTab === 'vitals' && !isBodyCompositionZeroState && (
               <MetricTemplateView 
                 config={getVitalsConfig()}
                 isVitalsCategory={true}
@@ -475,6 +481,49 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric }: Insight
                 isBodyComposition={selectedVitalsCategory === "Body Composition"}
                 showTodaysProgress={false}
               />
+            )}
+
+            {activeTab === 'vitals' && isBodyCompositionZeroState && (
+              <div className="h-full px-4 py-3">
+                <Card className="shadow-md border-0 bg-[var(--ds-surface-primary)] rounded-xl overflow-hidden h-full flex flex-col">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <CardTitle className="text-base font-semibold text-[var(--card-header-text)]">Body Compositions</CardTitle>
+                    <p className="text-xs text-[var(--ds-text-secondary)] mt-0.5 font-medium">No data yet. Connect your BCA to start tracking.</p>
+                  </div>
+                  <CardContent className="p-4 flex-1 flex flex-col">
+                    <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 h-52 relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-10 h-10 rounded-full bg-white border border-gray-200 mx-auto flex items-center justify-center mb-2">
+                            <Icon name="scale" className="w-5 h-5 text-gray-400" />
+                          </div>
+                          <p className="text-sm font-medium text-gray-600">No body composition entries</p>
+                        </div>
+                      </div>
+                      <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 320 160" preserveAspectRatio="none">
+                        <path d="M0 120 L50 110 L90 118 L140 104 L185 112 L230 98 L280 108 L320 100" fill="none" stroke="#d1d5db" strokeWidth="2" strokeDasharray="5 6" />
+                      </svg>
+                    </div>
+
+                    <div className="mt-4 rounded-xl border border-[var(--app-primary)]/20 bg-[var(--app-primary)]/5 p-3">
+                      <div className="flex items-center gap-3">
+                        <img src="/images/bca.png" alt="BCA" className="w-10 h-10 object-contain" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-gray-900">Connect your BCA</p>
+                          <p className="text-xs text-gray-600">Enable body composition graph and trend insights</p>
+                        </div>
+                        <button
+                          onClick={() => setShowBcaInstaller(true)}
+                          className="h-9 px-3 rounded-lg text-xs font-semibold text-white"
+                          style={{ backgroundColor: "var(--app-primary)" }}
+                        >
+                          Connect
+                        </button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             )}
 
             {activeTab === 'symptoms' && (
@@ -577,6 +626,13 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric }: Insight
           'Symptom Tracking'
         }
         onNavigateToAssistant={handleNavigateToAssistant}
+      />
+
+      <DevicesOverlay
+        isOpen={showBcaInstaller}
+        onClose={() => setShowBcaInstaller(false)}
+        launchInstallerDirect={true}
+        onInstallerModeChange={onDeviceInstallerModeChange}
       />
     </ScreenLayout>
   )

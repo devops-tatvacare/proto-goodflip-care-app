@@ -31,14 +31,15 @@ export interface UseVoiceRecordingUnifiedOptions {
 export function useVoiceRecordingUnified(options?: UseVoiceRecordingUnifiedOptions): [VoiceRecordingState, VoiceRecordingActions] {
   const [mode, setMode] = useState<ComposerMode>('idle')
   const [transcript, setTranscript] = useState('')
-  const [error, setError] = useState<string | null>('Voice recording has been disabled (ML models removed)')
+  const [error, setError] = useState<string | null>(null)
 
   const startRecording = useCallback(async () => {
-    setError('Voice recording has been disabled (ML models removed)')
+    setError(null)
+    setMode('recording-active')
   }, [])
 
   const stopRecording = useCallback(async (shouldAutoSend: boolean = false) => {
-    // Do nothing - functionality disabled
+    setMode('idle')
   }, [])
 
   const clearTranscript = useCallback(() => {

@@ -14,6 +14,13 @@ import { Toaster } from "@/components/ui/toaster"
 import { OnboardingScreen } from "@/components/screens/onboarding-screen"
 import { AppLoginScreen } from "@/components/screens/app-login-screen"
 import { GlobalFAB } from "@/components/ui/global-fab"
+import {
+  PREVIEW_TABS,
+  getAppPreviewVariant,
+  isZeroStateFeatureEnabled,
+  type AppPreviewVariant,
+  type PreviewTab,
+} from "@/lib/app-preview-config"
 
 interface Chat {
   id: string
@@ -32,43 +39,93 @@ interface Chat {
 }
 
 export default function HealthApp() {
-  const [activePreviewTab, setActivePreviewTab] = useState("App Login")
+  const [activePreviewTab, setActivePreviewTab] = useState<PreviewTab>(PREVIEW_TABS.appLogin)
   const [activeTab, setActiveTab] = useState("home")
   const [assistantInitialAction, setAssistantInitialAction] = useState<string | undefined>(undefined)
   const [insightsInitialMetric, setInsightsInitialMetric] = useState<string | undefined>(undefined)
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(false)
   const [navigationSource, setNavigationSource] = useState<string | undefined>(undefined)
+  const [isDeviceInstallerMode, setIsDeviceInstallerMode] = useState(false)
+  const [zeroStateActiveTab, setZeroStateActiveTab] = useState("home")
+  const [zeroStateAssistantInitialAction, setZeroStateAssistantInitialAction] = useState<string | undefined>(undefined)
+  const [zeroStateInsightsInitialMetric, setZeroStateInsightsInitialMetric] = useState<string | undefined>(undefined)
+  const [zeroStateSelectedChat, setZeroStateSelectedChat] = useState<Chat | null>(null)
+  const [zeroStateShowWelcomeScreen, setZeroStateShowWelcomeScreen] = useState(false)
+  const [zeroStateNavigationSource, setZeroStateNavigationSource] = useState<string | undefined>(undefined)
+  const [isZeroStateDeviceInstallerMode, setIsZeroStateDeviceInstallerMode] = useState(false)
+
+  const isZeroStatePreview = activePreviewTab === PREVIEW_TABS.appZeroState
+  const currentVariant: AppPreviewVariant = getAppPreviewVariant(activePreviewTab)
+  const currentActiveTab = isZeroStatePreview ? zeroStateActiveTab : activeTab
+  const currentAssistantInitialAction = isZeroStatePreview ? zeroStateAssistantInitialAction : assistantInitialAction
+  const currentInsightsInitialMetric = isZeroStatePreview ? zeroStateInsightsInitialMetric : insightsInitialMetric
+  const currentSelectedChat = isZeroStatePreview ? zeroStateSelectedChat : selectedChat
+  const currentShowWelcomeScreen = isZeroStatePreview ? zeroStateShowWelcomeScreen : showWelcomeScreen
+  const currentNavigationSource = isZeroStatePreview ? zeroStateNavigationSource : navigationSource
+  const currentInstallerMode = isZeroStatePreview ? isZeroStateDeviceInstallerMode : isDeviceInstallerMode
+
+  const setCurrentActiveTab = (newTab: string) => {
+    if (isZeroStatePreview) {
+      setZeroStateActiveTab(newTab)
+      return
+    }
+    setActiveTab(newTab)
+  }
 
   const handleNavigateToAssistant = (action: string) => {
+    if (isZeroStatePreview) {
+      setZeroStateAssistantInitialAction(action)
+      setZeroStateActiveTab("health-assistant")
+      setZeroStateNavigationSource("app-navigation")
+      setZeroStateShowWelcomeScreen(false)
+      return
+    }
+
     setAssistantInitialAction(action)
     setActiveTab("health-assistant")
-    setNavigationSource('app-navigation') // Regular navigation from app tabs
-    setShowWelcomeScreen(false) // Never show welcome for regular navigation
+    setNavigationSource("app-navigation")
+    setShowWelcomeScreen(false)
   }
 
   const handleNavigateToInsights = (metric: string) => {
+    if (isZeroStatePreview) {
+      setZeroStateInsightsInitialMetric(metric)
+      setZeroStateActiveTab("insights")
+      return
+    }
+
     setInsightsInitialMetric(metric)
     setActiveTab("insights")
   }
 
   const handleChatSelect = (chat: Chat) => {
+    if (isZeroStatePreview) {
+      setZeroStateSelectedChat(chat)
+      return
+    }
+
     setSelectedChat(chat)
   }
 
   const handleBackFromChat = () => {
+    if (isZeroStatePreview) {
+      setZeroStateSelectedChat(null)
+      return
+    }
+
     setSelectedChat(null)
   }
 
   const handleAppLoginComplete = () => {
-    setActivePreviewTab("App")
+    setActivePreviewTab(PREVIEW_TABS.app)
   }
 
   const handleSkipToHealthAssistant = (source: string) => {
     // Batch all state updates together to prevent intermediate renders
     React.startTransition(() => {
       setActiveTab("health-assistant")
-      setActivePreviewTab("App")
+      setActivePreviewTab(PREVIEW_TABS.app)
       setNavigationSource(source)
     })
     
@@ -89,63 +146,98 @@ export default function HealthApp() {
 
 
   const handleTabChange = (newTab: string) => {
-    setActiveTab(newTab)
-    
-    // Handle health assistant navigation from bottom nav
-    if (newTab === 'health-assistant') {
-      setNavigationSource('app-navigation')
-      setShowWelcomeScreen(false) // Never show welcome for bottom nav clicks
+    setCurrentActiveTab(newTab)
+
+    if (newTab === "health-assistant") {
+      if (isZeroStatePreview) {
+        setZeroStateNavigationSource("app-navigation")
+        setZeroStateShowWelcomeScreen(false)
+        return
+      }
+
+      setNavigationSource("app-navigation")
+      setShowWelcomeScreen(false)
     }
   }
 
-  const renderAppScreen = () => {
-    // If a chat is selected, show full-screen chat
-    if (selectedChat) {
-      return <ChatDetailScreen chat={selectedChat} onBack={handleBackFromChat} />
+  const renderAppScreen = (variant: AppPreviewVariant) => {
+    if (currentSelectedChat) {
+      return <ChatDetailScreen chat={currentSelectedChat} onBack={handleBackFromChat} />
     }
 
-    switch (activeTab) {
+    switch (currentActiveTab) {
       case "home":
-        return <HomeScreen onTabChange={setActiveTab} onNavigateToAssistant={handleNavigateToAssistant} onNavigateToInsights={handleNavigateToInsights} />
+        const homeInstallerModeHandler = isZeroStatePreview ? setIsZeroStateDeviceInstallerMode : setIsDeviceInstallerMode
+        if (variant === "zero-state" && isZeroStateFeatureEnabled("home")) {
+          return <HomeScreen onTabChange={handleTabChange} onNavigateToAssistant={handleNavigateToAssistant} onNavigateToInsights={handleNavigateToInsights} onDeviceInstallerModeChange={homeInstallerModeHandler} isZeroStatePreview={isZeroStatePreview} />
+        }
+        return <HomeScreen onTabChange={handleTabChange} onNavigateToAssistant={handleNavigateToAssistant} onNavigateToInsights={handleNavigateToInsights} onDeviceInstallerModeChange={homeInstallerModeHandler} isZeroStatePreview={isZeroStatePreview} />
       case "insights":
-        const insightsScreen = <InsightsScreen onNavigateToAssistant={handleNavigateToAssistant} initialMetric={insightsInitialMetric} />
-        // Clear the initial metric after rendering
-        if (insightsInitialMetric) {
-          setTimeout(() => setInsightsInitialMetric(undefined), 100)
+        const insightsScreen = <InsightsScreen onNavigateToAssistant={handleNavigateToAssistant} initialMetric={currentInsightsInitialMetric} isZeroStatePreview={isZeroStatePreview} onDeviceInstallerModeChange={isZeroStatePreview ? setIsZeroStateDeviceInstallerMode : setIsDeviceInstallerMode} />
+        if (currentInsightsInitialMetric) {
+          if (isZeroStatePreview) {
+            setTimeout(() => setZeroStateInsightsInitialMetric(undefined), 100)
+          } else {
+            setTimeout(() => setInsightsInitialMetric(undefined), 100)
+          }
         }
         return insightsScreen
       case "health-assistant":
         const screen = <VersionAwareHealthAssistant2 
           version="current" 
-          initialAction={assistantInitialAction}
-          showWelcome={showWelcomeScreen}
-          navigationSource={navigationSource}
+          initialAction={currentAssistantInitialAction}
+          showWelcome={currentShowWelcomeScreen}
+          navigationSource={currentNavigationSource}
           onWelcomeComplete={() => {
+            if (isZeroStatePreview) {
+              setZeroStateShowWelcomeScreen(false)
+              setZeroStateNavigationSource(undefined)
+              return
+            }
+
             setShowWelcomeScreen(false)
             setNavigationSource(undefined)
           }}
         />
-        // Clear the initial action after rendering  
-        if (assistantInitialAction) {
-          setTimeout(() => setAssistantInitialAction(undefined), 100)
+        if (currentAssistantInitialAction) {
+          if (isZeroStatePreview) {
+            setTimeout(() => setZeroStateAssistantInitialAction(undefined), 100)
+          } else {
+            setTimeout(() => setAssistantInitialAction(undefined), 100)
+          }
         }
         return screen
       case "chats":
-        return <ChatsScreen onBack={() => setActiveTab("home")} onChatSelect={handleChatSelect} />
+        return <ChatsScreen onBack={() => handleTabChange("home")} onChatSelect={handleChatSelect} />
       case "social":
-        return <SocialScreen onBack={() => setActiveTab("home")} />
+        return <SocialScreen onBack={() => handleTabChange("home")} />
       default:
-        return <HomeScreen onTabChange={setActiveTab} onNavigateToAssistant={handleNavigateToAssistant} onNavigateToInsights={handleNavigateToInsights} />
+        return <HomeScreen onTabChange={handleTabChange} onNavigateToAssistant={handleNavigateToAssistant} onNavigateToInsights={handleNavigateToInsights} onDeviceInstallerModeChange={isZeroStatePreview ? setIsZeroStateDeviceInstallerMode : setIsDeviceInstallerMode} isZeroStatePreview={isZeroStatePreview} />
     }
   }
 
+  const renderAppPreviewShell = (variant: AppPreviewVariant) => {
+    return (
+      <ToastProvider>
+        <MobileFrame>
+          <div className="flex flex-col h-full bg-gray-50 relative">
+            <div className="flex-1 overflow-hidden">{renderAppScreen(variant)}</div>
+            {!currentSelectedChat && !currentInstallerMode && <BottomNavigation activeTab={currentActiveTab} onTabChange={handleTabChange} />}
+            <Toaster />
+            {(currentActiveTab === "insights" || currentActiveTab === "social") && !currentSelectedChat && !currentInstallerMode && <GlobalFAB />}
+          </div>
+        </MobileFrame>
+      </ToastProvider>
+    )
+  }
+
   const renderTabContent = () => {
-    if (activePreviewTab === "Onboarding") {
+    if (activePreviewTab === PREVIEW_TABS.onboarding) {
       return (
         <ToastProvider>
           <MobileFrame>
             <div className="flex flex-col h-full bg-white">
-              <OnboardingScreen onComplete={() => setActivePreviewTab("App")} />
+              <OnboardingScreen onComplete={() => setActivePreviewTab(PREVIEW_TABS.app)} />
               <Toaster />
             </div>
           </MobileFrame>
@@ -153,7 +245,7 @@ export default function HealthApp() {
       )
     }
 
-    if (activePreviewTab === "App Login") {
+    if (activePreviewTab === PREVIEW_TABS.appLogin) {
       return (
         <ToastProvider>
           <MobileFrame>
@@ -167,21 +259,8 @@ export default function HealthApp() {
     }
 
 
-    if (activePreviewTab === "App") {
-      return (
-        <ToastProvider>
-          <MobileFrame>
-            <div className="flex flex-col h-full bg-gray-50 relative">
-              <div className="flex-1 overflow-hidden">{renderAppScreen()}</div>
-              {/* Hide bottom navigation when in chat detail */}
-              {!selectedChat && <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />}
-              <Toaster />
-              {/* GlobalFAB - Render for insights and social screens */}
-              {(activeTab === 'insights' || activeTab === 'social') && !selectedChat && <GlobalFAB />}
-            </div>
-          </MobileFrame>
-        </ToastProvider>
-      )
+    if (activePreviewTab === PREVIEW_TABS.app || activePreviewTab === PREVIEW_TABS.appZeroState) {
+      return renderAppPreviewShell(currentVariant)
     }
 
 
@@ -196,9 +275,9 @@ export default function HealthApp() {
       <div className="flex justify-center items-center gap-6 pt-8 pb-4">
         <div className="flex bg-gray-200 rounded-full p-1">
           <button
-            onClick={() => setActivePreviewTab("Onboarding")}
+            onClick={() => setActivePreviewTab(PREVIEW_TABS.onboarding)}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-              activePreviewTab === "Onboarding"
+              activePreviewTab === PREVIEW_TABS.onboarding
                 ? "bg-slate-800 text-white"
                 : "text-gray-600 hover:text-gray-800"
             }`}
@@ -206,9 +285,9 @@ export default function HealthApp() {
             Onboarding
           </button>
           <button
-            onClick={() => setActivePreviewTab("App Login")}
+            onClick={() => setActivePreviewTab(PREVIEW_TABS.appLogin)}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-              activePreviewTab === "App Login"
+              activePreviewTab === PREVIEW_TABS.appLogin
                 ? "bg-slate-800 text-white"
                 : "text-gray-600 hover:text-gray-800"
             }`}
@@ -216,14 +295,24 @@ export default function HealthApp() {
             App Login
           </button>
           <button
-            onClick={() => setActivePreviewTab("App")}
+            onClick={() => setActivePreviewTab(PREVIEW_TABS.app)}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-              activePreviewTab === "App"
+              activePreviewTab === PREVIEW_TABS.app
                 ? "bg-slate-800 text-white"
                 : "text-gray-600 hover:text-gray-800"
             }`}
           >
             App
+          </button>
+          <button
+            onClick={() => setActivePreviewTab(PREVIEW_TABS.appZeroState)}
+            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+              activePreviewTab === PREVIEW_TABS.appZeroState
+                ? "bg-slate-800 text-white"
+                : "text-gray-600 hover:text-gray-800"
+            }`}
+          >
+            App - Zero State
           </button>
         </div>
       </div>

@@ -27,13 +27,13 @@ A modern healthcare companion application built with Next.js 15, React 19, and T
 - **Charts**: Recharts
 - **Audio**: WaveSurfer.js, react-audio-visualize
 - **Database**: SQLite (better-sqlite3) with JSON fallback
-- **Package Manager**: pnpm
+- **Package Manager**: npm
 - **Development**: Storybook 8 for component development
 
 ## 📋 Prerequisites
 
 - Node.js 18.17 or later
-- pnpm 8 or later
+- npm 10 or later
 - Git
 
 ## 🏁 Getting Started
@@ -46,13 +46,13 @@ git clone git@github.com:devops-tatvacare/proto-goodflip-care-app.git
 cd proto-goodflip-care-app
 
 # Install dependencies
-pnpm install
+npm install
 
 # Copy environment variables (if needed)
 cp .env.local.example .env.local
 
 # Start development server
-pnpm dev
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -61,20 +61,20 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ```bash
 # Development
-pnpm dev              # Start development server
-pnpm build            # Build for production
-pnpm start            # Start production server
+npm run dev           # Start development server
+npm run build         # Build for production
+npm run start         # Start production server
 
 # Linting
-pnpm lint             # Run ESLint
-pnpm lint:css         # Run Stylelint for CSS
-pnpm lint:arbitrary   # Check Tailwind arbitrary values
-pnpm lint:all         # Run all linters
+npm run lint          # Run ESLint
+npm run lint:css      # Run Stylelint for CSS
+npm run lint:arbitrary # Check Tailwind arbitrary values
+npm run lint:all      # Run all linters
 
 # Storybook
-pnpm storybook        # Start Storybook (port 6008)
-pnpm build-storybook  # Build Storybook static files
-pnpm chromatic        # Run Chromatic visual tests
+npm run storybook     # Start Storybook (port 6008)
+npm run build-storybook # Build Storybook static files
+npm run chromatic     # Run Chromatic visual tests
 ```
 
 ## 📁 Project Structure
@@ -143,13 +143,13 @@ Uses SQLite (better-sqlite3) for local development with automatic JSON fallback:
 - **Tailwind**: `tailwind.config.ts` - Design tokens and theme
 - **Next.js**: `next.config.mjs` - Build configuration
 - **Storybook**: `.storybook/` - Component documentation
-- **pnpm**: `pnpm-workspace.yaml` - Workspace configuration
+- **npm**: `package-lock.json` - Dependency lockfile
 
 ## 🤝 Contributing
 
 1. Create a feature branch from `main`
 2. Make your changes following the design system guidelines
-3. Run `pnpm lint:all` to ensure code quality
+3. Run `npm run lint:all` to ensure code quality
 4. Commit with descriptive messages
 5. Push and create a pull request
 
@@ -164,7 +164,7 @@ Uses SQLite (better-sqlite3) for local development with automatic JSON fallback:
 ## 📚 Documentation
 
 - [Copilot Instructions](.github/copilot-instructions.md) - Detailed development guidelines
-- [Storybook](http://localhost:6008) - Component documentation (run `pnpm storybook`)
+- [Storybook](http://localhost:6008) - Component documentation (run `npm run storybook`)
 
 ## 🔐 Environment Variables
 

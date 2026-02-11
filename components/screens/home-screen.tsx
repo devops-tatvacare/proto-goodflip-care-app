@@ -75,10 +75,12 @@ interface Chat {
   }>
 }
 
-export function HomeScreen({ onTabChange, onNavigateToAssistant, onNavigateToInsights }: { 
+export function HomeScreen({ onTabChange, onNavigateToAssistant, onNavigateToInsights, onDeviceInstallerModeChange, isZeroStatePreview }: { 
   onTabChange?: (tab: string) => void
   onNavigateToAssistant?: (action: string) => void
   onNavigateToInsights?: (metric: string) => void
+  onDeviceInstallerModeChange?: (active: boolean) => void
+  isZeroStatePreview?: boolean
 }) {
   const [showProfileOverlay, setShowProfileOverlay] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -86,6 +88,7 @@ export function HomeScreen({ onTabChange, onNavigateToAssistant, onNavigateToIns
   const [showSettingsOverlay, setShowSettingsOverlay] = useState(false)
   const [showNotificationsOverlay, setShowNotificationsOverlay] = useState(false)
   const [showDevicesOverlay, setShowDevicesOverlay] = useState(false)
+  const [launchBcaInstallerDirect, setLaunchBcaInstallerDirect] = useState(false)
   const [showCalendarOverlay, setShowCalendarOverlay] = useState(false)
   const [showDeviceManagement, setShowDeviceManagement] = useState(false)
   const [selectedArticleId, setSelectedArticleId] = useState<number | null>(null)
@@ -254,6 +257,9 @@ export function HomeScreen({ onTabChange, onNavigateToAssistant, onNavigateToIns
   const handleProgressClick = (section?: string) => {
     if (section === 'health-journey') {
       setShowHealthJourney(true)
+    } else if (section === "connect-bca" && isZeroStatePreview) {
+      setLaunchBcaInstallerDirect(true)
+      setShowDevicesOverlay(true)
     } else {
       // Navigate to insights tab at app level
       onTabChange?.("insights")
@@ -907,7 +913,12 @@ export function HomeScreen({ onTabChange, onNavigateToAssistant, onNavigateToIns
       />
       <DevicesOverlay
         isOpen={showDevicesOverlay}
-        onClose={() => setShowDevicesOverlay(false)}
+        onClose={() => {
+          setShowDevicesOverlay(false)
+          setLaunchBcaInstallerDirect(false)
+        }}
+        onInstallerModeChange={onDeviceInstallerModeChange}
+        launchInstallerDirect={launchBcaInstallerDirect}
         onAddDevice={() => {
           setShowDeviceManagement(true)
           setShowDevicesOverlay(false)

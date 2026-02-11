@@ -2480,10 +2480,10 @@ ${addressMessage?.data?.selectedAddress ? `• Address: ${addressMessage.data.se
     }
   }, [showQuickActions])
 
-  // Handle recording errors (silence benign 'aborted'/'no-speech')
+  // Handle recording errors (silence benign/expected cases)
   useEffect(() => {
-    if (voiceState.error && !/aborted|no-speech/i.test(voiceState.error)) {
-      console.error('Recording error:', voiceState.error)
+    if (voiceState.error && !/aborted|no-speech|disabled \(ML models removed\)/i.test(voiceState.error)) {
+      console.warn('Recording error:', voiceState.error)
       // You could show a toast notification here
     }
   }, [voiceState.error])
