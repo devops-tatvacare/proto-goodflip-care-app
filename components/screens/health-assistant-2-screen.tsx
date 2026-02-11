@@ -393,7 +393,7 @@ const getTabContent = (phase: string, day: number) => {
       return {
         activeTab: 'community',
         tabs: [
-          { id: 'metrics', label: '📈 Metrics', icon: (props: any) => <Icon name="heartMonitor" {...props} /> },
+          { id: 'metrics', label: '📈 Metrics', icon: (props: any) => <Icon name="glucose" {...props} /> },
           { id: 'chat', label: 'Chat', icon: (props: any) => <Icon name="brain" {...props} /> },
           { id: 'community', label: 'Community', icon: (props: any) => <Icon name="group" {...props} /> }
         ],
@@ -467,7 +467,7 @@ function WelcomeScreen({ onGetStarted }: { onGetStarted: () => void }) {
           <div className="space-y-2 mb-8">
             {[
               { icon: (props: any) => <Icon name="medication" {...props} />, text: "Medication tracking & reminders" },
-              { icon: (props: any) => <Icon name="heartMonitor" {...props} />, text: "Symptom monitoring & insights" },
+              { icon: (props: any) => <Icon name="glucose" {...props} />, text: "Symptom monitoring & insights" },
               { icon: (props: any) => <Icon name="brain" {...props} />, text: "24/7 health guidance" }
             ].map((feature, index) => (
               <div
@@ -1011,7 +1011,7 @@ export function HealthAssistant2Screen({ initialAction, showWelcome = false, nav
     ],
     tracking: [
       { id: 'log-symptoms', label: 'Log Symptoms', icon: (props: any) => <Icon name="thermostat" {...props} /> },
-      { id: 'log-activities', label: 'Log Activities', icon: (props: any) => <Icon name="heartMonitor" {...props} /> },
+      { id: 'log-activities', label: 'Log Activities', icon: (props: any) => <Icon name="glucose" {...props} /> },
       { id: 'view-history', label: 'View History', icon: (props: any) => <Icon name="scrollText" {...props} /> }
     ]
   }

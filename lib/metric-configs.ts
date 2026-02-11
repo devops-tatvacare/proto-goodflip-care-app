@@ -644,7 +644,7 @@ export const bloodPressureConfig: MetricConfig = {
   currentValue: "120/80",
   goal: "< 130/85",
   percentage: 85,
-  icon: "monitor_heart",
+  icon: "glucose",
   metricType: "bloodPressure",
   aiInsightPrompt: "Your blood pressure readings of 120/80 mmHg are in the normal healthy range. The consistency in your readings indicates good cardiovascular health. Continue monitoring regularly and maintain your current lifestyle habits.",
   chartData: [
@@ -927,7 +927,7 @@ export const cholesterolConfig: MetricConfig = {
   currentValue: "185",
   goal: "< 200",
   percentage: 92,
-  icon: "monitor_heart",
+  icon: "glucose",
   metricType: "labs",
   aiInsightPrompt: "Your cholesterol level of 185 mg/dL is within the healthy range. Your LDL and HDL ratios are well-balanced, indicating good cardiovascular health. Continue your current diet and exercise routine.",
   chartData: [

@@ -42,10 +42,10 @@ export const MORE_ACTIONS: MoreAction[] = [
   { icon: (props: any) => <Icon name="waterDrop" {...props} />, label: "Log Water", actionType: "water" },
   { icon: (props: any) => <Icon name="bedtime" {...props} />, label: "Log Sleep", actionType: "sleep" },
   { icon: (props: any) => <Icon name="footprints" {...props} />, label: "Log Steps", actionType: "steps" },
-  { icon: (props: any) => <Icon name="heartMonitor" {...props} />, label: "Log Fatigue", actionType: "fatigue" },
+  { icon: (props: any) => <Icon name="glucose" {...props} />, label: "Log Fatigue", actionType: "fatigue" },
   { icon: (props: any) => <Icon name="thermostat" {...props} />, label: "Log Symptoms", actionType: "symptoms" },
   { icon: (props: any) => <Icon name="fileText" {...props} />, label: "Lab Results", actionType: "lab-results" },
-  { icon: (props: any) => <Icon name="heartMonitor" {...props} />, label: "Log Periods", actionType: "periods" },
+  { icon: (props: any) => <Icon name="glucose" {...props} />, label: "Log Periods", actionType: "periods" },
   { icon: (props: any) => <Icon name="restaurant" {...props} />, label: "Log Diet", actionType: "diet" },
 ]
 
@@ -59,7 +59,7 @@ export interface HealthSummary {
 export const HEALTH_SUMMARIES: HealthSummary[] = [
   { icon: (props: any) => <Icon name="bedtime" {...props} />, label: "Sleep Summary", actionType: "sleep-summary" },
   { icon: (props: any) => <Icon name="trendingUp" {...props} />, label: "Health Progress", actionType: "health-progress" },
-  { icon: (props: any) => <Icon name="heartMonitor" {...props} />, label: "Liver Health", actionType: "liver-health" },
+  { icon: (props: any) => <Icon name="glucose" {...props} />, label: "Liver Health", actionType: "liver-health" },
   { icon: (props: any) => <Icon name="heart" {...props} />, label: "Heart Health", actionType: "heart-health" },
 ]
 

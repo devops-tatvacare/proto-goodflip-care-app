@@ -154,7 +154,7 @@ export function LabTestsTab({ onViewPDF }: LabTestsTabProps) {
                 {/* Key Parameters Grid */}
                 <div>
                   <h4 className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
-                    <Icon name="heartMonitor" className="w-4 h-4" />
+                    <Icon name="glucose" className="w-4 h-4" />
                     Latest Results
                   </h4>
                   <div

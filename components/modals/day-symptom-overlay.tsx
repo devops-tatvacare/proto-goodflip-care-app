@@ -37,7 +37,7 @@ export function DaySymptomOverlay({ date, symptoms, onClose }: DaySymptomOverlay
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-lg flex items-center justify-center" 
                    style={{ backgroundColor: "var(--chip-bg-primary)" }}>
-                <Icon name="heartMonitor" className="w-3.5 h-3.5" style={{ color: "var(--app-primary)" }} />
+                <Icon name="glucose" className="w-3.5 h-3.5" style={{ color: "var(--app-primary)" }} />
               </div>
               <div>
                 <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
@@ -62,7 +62,7 @@ export function DaySymptomOverlay({ date, symptoms, onClose }: DaySymptomOverlay
         <div className="p-4">
           {symptoms.length === 0 ? (
             <div className="text-center py-6 rounded-lg" style={{ backgroundColor: "var(--bg-secondary)" }}>
-              <Icon name="heartMonitor" className="w-8 h-8 mx-auto mb-2" style={{ color: "var(--text-muted)" }} />
+              <Icon name="glucose" className="w-8 h-8 mx-auto mb-2" style={{ color: "var(--text-muted)" }} />
               <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
                 No symptoms logged for this day
               </p>

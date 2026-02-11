@@ -83,7 +83,7 @@ export function DeviceManagementScreen({ onBack }: DeviceManagementScreenProps) 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <Icon name="heartMonitor" className="w-5 h-5 text-blue-600" />
+                      <Icon name="glucose" className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
                       <h3 className="font-medium text-gray-900">{device.name}</h3>
@@ -110,7 +110,7 @@ function EmptyDeviceState({ onAddDevice }: { onAddDevice: () => void }) {
   return (
     <div className="text-center py-16">
       <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <Icon name="heartMonitor" className="w-8 h-8 text-gray-400" />
+        <Icon name="glucose" className="w-8 h-8 text-gray-400" />
       </div>
       <h3 className="font-semibold text-lg text-[var(--ds-text-secondary)] mb-2">No Devices Connected</h3>
       <p className="text-sm text-[var(--ds-text-secondary)] mb-6 max-w-sm mx-auto">

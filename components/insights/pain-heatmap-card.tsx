@@ -67,7 +67,7 @@ export function PainHeatmapCard({ onDrillDown }: PainHeatmapCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[var(--app-primary)] to-[var(--app-primary-hover)] flex items-center justify-center">
-              <Icon name="heartMonitor" className="w-3 h-3 text-[var(--ds-text-inverse)]" />
+              <Icon name="glucose" className="w-3 h-3 text-[var(--ds-text-inverse)]" />
             </div>
             <h3 className="text-base font-semibold text-[var(--card-header-text)]">
               Pain Pattern Insights

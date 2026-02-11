@@ -54,13 +54,14 @@ export const ICON_NAMES = {
   
   // Health & Medical
   heart: 'favorite',
-  heartMonitor: 'monitor_heart',
+  heartMonitor: 'glucose',
   medication: 'medication',
   science: 'science',
   vaccines: 'vaccines',
   stethoscope: 'stethoscope',
   cardiology: 'cardiology',
   medicalServices: 'medical_services',
+  glucose: 'glucose',
   
   // Trends & Charts
   trendingUp: 'trending_up',
@@ -97,7 +98,7 @@ export const ICON_NAMES = {
   bedtime: 'bedtime',
   waterDrop: 'water_drop',
   thermostat: 'device_thermostat',
-  scale: 'scale',
+  scale: 'monitor_weight',
   
   // Technology & Devices
   sparkles: 'auto_awesome',

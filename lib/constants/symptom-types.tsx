@@ -15,7 +15,7 @@ export const SYMPTOM_TYPES: SymptomType[] = [
   { symptom: "Difficulty Breathing", icon: (props: any) => <Icon name="wind" {...props} />, color: "text-red-600", emergency: true },
   { symptom: "Nausea", icon: (props: any) => <Icon name="alertTriangle" {...props} />, color: "text-yellow-500", semaglutide: true },
   { symptom: "Pain", icon: (props: any) => <Icon name="zap" {...props} />, color: "text-orange-500" },
-  { symptom: "Weakness", icon: (props: any) => <Icon name="heartMonitor" {...props} />, color: "text-gray-500" },
+  { symptom: "Weakness", icon: (props: any) => <Icon name="glucose" {...props} />, color: "text-gray-500" },
   { symptom: "Headache", icon: (props: any) => <Icon name="brain" {...props} />, color: "text-purple-600" },
   { symptom: "Cough", icon: (props: any) => <Icon name="stethoscope" {...props} />, color: "text-blue-600" },
   { symptom: "Eye Irritation", icon: (props: any) => <Icon name="eye" {...props} />, color: "text-cyan-500" },

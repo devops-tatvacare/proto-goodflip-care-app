@@ -114,7 +114,7 @@ export const getTabContent = (phase: string, day: number): JourneyPhaseContent =
       return {
         activeTab: 'community',
         tabs: [
-          { id: 'metrics', label: '📈 Metrics', icon: (props: any) => <Icon name="heartMonitor" {...props} /> },
+          { id: 'metrics', label: '📈 Metrics', icon: (props: any) => <Icon name="glucose" {...props} /> },
           { id: 'chat', label: 'Chat', icon: (props: any) => <Icon name="brain" {...props} /> },
           { id: 'community', label: 'Community', icon: (props: any) => <Icon name="group" {...props} /> }
         ],

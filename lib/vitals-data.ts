@@ -163,7 +163,7 @@ export const vitalsCategories: VitalsCategory[] = [
   {
     id: 'body-composition',
     title: 'Body Composition',
-    materialIcon: 'scale',
+    materialIcon: 'monitor_weight',
     color: 'text-green-600',
     bgColor: 'bg-green-50',
     description: 'Understand your body\'s fat, muscle, and water levels',

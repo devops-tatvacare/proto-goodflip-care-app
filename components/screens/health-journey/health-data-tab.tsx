@@ -45,7 +45,7 @@ export function HealthDataTab() {
         highlight: "Progress: 7kg/10kg"
       },
       {
-        icon: (props: any) => <Icon name="heartMonitor" {...props} />,
+        icon: (props: any) => <Icon name="glucose" {...props} />,
         title: "Glucose",
         percentage: 91,
         progress: 91,

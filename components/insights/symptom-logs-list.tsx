@@ -208,7 +208,7 @@ export function SymptomLogsList({ symptomLogs, onBack }: SymptomLogsListProps) {
                                     </div>
                                   ) : (
                                     <div className="flex items-center gap-1 text-blue-600">
-                                      <Icon name="heartMonitor" className="w-4 h-4" />
+                                      <Icon name="glucose" className="w-4 h-4" />
                                       <span className="text-xs font-medium">Stable</span>
                                     </div>
                                   )}

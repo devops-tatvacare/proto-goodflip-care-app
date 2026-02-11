@@ -40,7 +40,7 @@ export function EducationHubScreen({ onBack }: EducationHubScreenProps) {
     { id: 'drug-info', label: 'Drug Info', icon: (props: any) => <Icon name="medication" {...props} />, color: 'var(--app-tertiary)' },
     { id: 'side-effects', label: 'Side Effects', icon: (props: any) => <Icon name="alertCircle" {...props} />, color: 'var(--status-warning)' },
     { id: 'nutrition', label: 'Nutrition', icon: (props: any) => <Icon name="restaurant" {...props} />, color: 'var(--status-success)' },
-    { id: 'exercise', label: 'Exercise', icon: (props: any) => <Icon name="heartMonitor" {...props} />, color: 'var(--app-primary)' },
+    { id: 'exercise', label: 'Exercise', icon: (props: any) => <Icon name="glucose" {...props} />, color: 'var(--app-primary)' },
     { id: 'mental-health', label: 'Mental Health', icon: (props: any) => <Icon name="brain" {...props} />, color: 'var(--app-secondary)' },
     { id: 'lab-results', label: 'Lab Results', icon: (props: any) => <Icon name="microscope" {...props} />, color: 'var(--app-tertiary)' },
     { id: 'doctor-talks', label: 'Doctor Talks', icon: (props: any) => <Icon name="stethoscope" {...props} />, color: 'var(--app-primary)' },

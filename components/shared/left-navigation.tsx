@@ -52,7 +52,7 @@ export function LeftNavigation({ isOpen, onClose, onDeviceManagement, onRecords,
               className="w-full flex items-center gap-3 p-3 text-left hover:bg-[var(--ds-surface-secondary)] rounded-lg transition-colors"
               onClick={onDeviceManagement}
             >
-              <Icon name="heartMonitor" className="w-5 h-5 text-[var(--app-primary)]" />
+              <Icon name="glucose" className="w-5 h-5 text-[var(--app-primary)]" />
               <span className="font-medium text-[var(--text-primary)]">Your Devices</span>
             </button>
             <button

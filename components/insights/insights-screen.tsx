@@ -230,7 +230,7 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric, isZeroSta
   // Define vitals category icons
   const vitalsCategoryIcons = [
     { title: "Labs", materialIcon: "lab_panel", color: "text-blue-600", bgColor: "bg-blue-50" },
-    { title: "Body Composition", materialIcon: "metabolism", color: "text-green-600", bgColor: "bg-green-50" },
+    { title: "Body Composition", materialIcon: "monitor_weight", color: "text-green-600", bgColor: "bg-green-50" },
     { title: "Cardiovascular", materialIcon: "cardiology", color: "text-red-600", bgColor: "bg-red-50" },
     { title: "Glucose Monitoring", materialIcon: "glucose", color: "text-purple-600", bgColor: "bg-purple-50" },
   ]
@@ -368,7 +368,7 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric, isZeroSta
                   background: 'linear-gradient(to right, var(--app-primary), var(--app-primary-hover))'
                 } : {}}
               >
-                <Icon name="heartMonitor" className="w-4 h-4" />
+                <Icon name="glucose" className="w-4 h-4" />
                 Health
               </button>
               
@@ -543,7 +543,7 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric, isZeroSta
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-center">
                           <div className="w-10 h-10 rounded-full bg-white border border-gray-200 mx-auto flex items-center justify-center mb-2">
-                            <Icon name="heartMonitor" className="w-5 h-5 text-gray-400" />
+                            <Icon name="glucose" className="w-5 h-5 text-gray-400" />
                           </div>
                           <p className="text-sm font-medium text-gray-600">No glucose entries</p>
                         </div>
@@ -585,7 +585,7 @@ export function InsightsScreen({ onNavigateToAssistant, initialMetric, isZeroSta
                       <div>
                         <CardTitle className="text-base font-semibold flex items-center gap-2.5 text-[var(--card-header-text)]">
                           <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[var(--app-primary)] to-[var(--app-primary-hover)] flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[var(--ds-text-inverse)]" style={{ fontSize: '12px' }}>monitor_heart</span>
+                            <span className="material-symbols-outlined text-[var(--ds-text-inverse)]" style={{ fontSize: '12px' }}>glucose</span>
                           </div>
                           Symptom Trends
                         </CardTitle>

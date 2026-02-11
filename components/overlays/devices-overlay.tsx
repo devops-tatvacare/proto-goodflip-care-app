@@ -141,7 +141,7 @@ const DEVICE_CATEGORIES: DeviceCategory[] = [
     id: "glucose",
     name: "Glucose Monitoring",
     description: "Track blood sugar readings",
-    icon: (props: any) => <Icon name="heartMonitor" {...props} />,
+    icon: (props: any) => <Icon name="glucose" {...props} />,
     color: "text-red-600",
     bgColor: "bg-red-50",
   },

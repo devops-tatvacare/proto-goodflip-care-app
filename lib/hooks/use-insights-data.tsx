@@ -8,7 +8,7 @@ export function useInsightsData(): InsightData[] {
   return [
     {
       title: "Medication Logs",
-      icon: (props: any) => <Icon name="heartMonitor" {...props} />,
+      icon: (props: any) => <Icon name="glucose" {...props} />,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
       logged: 21,
@@ -68,7 +68,7 @@ export function useInsightsData(): InsightData[] {
     },
     {
       title: "Fatigue Logs",
-      icon: (props: any) => <Icon name="heartMonitor" {...props} />,
+      icon: (props: any) => <Icon name="glucose" {...props} />,
       color: "text-red-600",
       bgColor: "bg-red-50",
       logged: 0,
@@ -81,7 +81,7 @@ export function useInsightsData(): InsightData[] {
     },
     {
       title: "Menstruation Logs",
-      icon: (props: any) => <Icon name="heartMonitor" {...props} />,
+      icon: (props: any) => <Icon name="glucose" {...props} />,
       color: "text-pink-600",
       bgColor: "bg-pink-50",
       logged: 12,
@@ -113,7 +113,7 @@ export function useSymptomData() {
     { symptom: "Fever", icon: (props: any) => <Icon name="thermostat" {...props} />, color: "text-red-500" },
     { symptom: "Nausea", icon: (props: any) => <Icon name="alertTriangle" {...props} />, color: "text-yellow-500" },
     { symptom: "Pain", icon: (props: any) => <Icon name="zap" {...props} />, color: "text-orange-500" },
-    { symptom: "Weakness", icon: (props: any) => <Icon name="heartMonitor" {...props} />, color: "text-gray-500" },
+    { symptom: "Weakness", icon: (props: any) => <Icon name="glucose" {...props} />, color: "text-gray-500" },
     { symptom: "Chest Pain", icon: (props: any) => <Icon name="heart" {...props} />, color: "text-red-600" },
     { symptom: "Headache", icon: (props: any) => <Icon name="brain" {...props} />, color: "text-purple-600" },
     { symptom: "Cough", icon: (props: any) => <Icon name="stethoscope" {...props} />, color: "text-blue-600" },

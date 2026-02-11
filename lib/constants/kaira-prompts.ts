@@ -189,7 +189,7 @@ export const vitalsMetricPrompts: MetricPrompts = {
   // Cardiovascular
   "Heart Rate": [
     { id: "hr-1", text: "Is my heart rate normal?", icon: "favorite" },
-    { id: "hr-2", text: "Resting vs active heart rate", icon: "monitor_heart" },
+    { id: "hr-2", text: "Resting vs active heart rate", icon: "glucose" },
     { id: "hr-3", text: "Heart rate variability insights", icon: "insights" },
     { id: "hr-4", text: "Cardiovascular fitness level", icon: "fitness_center" }
   ],
@@ -203,7 +203,7 @@ export const vitalsMetricPrompts: MetricPrompts = {
     { id: "resp-1", text: "Is my breathing rate normal?", icon: "air" },
     { id: "resp-2", text: "Breathing exercises for health", icon: "self_improvement" },
     { id: "resp-3", text: "What affects breathing rate?", icon: "psychology" },
-    { id: "resp-4", text: "Respiratory health indicators", icon: "monitor_heart" }
+    { id: "resp-4", text: "Respiratory health indicators", icon: "glucose" }
   ],
 
   // Glucose Monitoring
