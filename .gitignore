@@ -2,6 +2,7 @@
 node_modules/
 /.pnp
 .pnp.js
+.pnpm-debug.log
 
 # Production
 /build
@@ -12,26 +13,32 @@ node_modules/
 out/
 
 # Environment variables
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# npm
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Debug
+pnpm-debug.log*
+lerna-debug.log*
 debug.log
 dev.log
+*.log
 
 # TypeScript
 *.tsbuildinfo
+next-env.d.ts
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
@@ -44,8 +51,31 @@ Thumbs.db
 
 # Storybook build
 stories-storybook/storybook-static/
+storybook-static/
 
 # Temporary files
 *.tmp
 *.temp
 *storybook.log
+
+# Database files (dev)
+*.db
+*.db-shm
+*.db-wal
+health_dev.db
+health_dev.json
+
+# Backup files
+*.backup
+*.bak
+*.old
+*-backup.*
+globals-backup.css
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.pem
+.vercel
