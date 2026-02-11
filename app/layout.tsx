@@ -15,7 +15,6 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "GoodFlip Care",
   description: "Your Companion for Comprehensive Healthcare",
-  generator: 'v0.dev',
   icons: {
     icon: '/images/goodflip-care-logo.png',
     shortcut: '/images/goodflip-care-logo.png',
