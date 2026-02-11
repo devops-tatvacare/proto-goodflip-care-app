@@ -24,6 +24,7 @@ interface DevicesOverlayProps {
   onDeviceSelect?: (device: Device) => void
   onInstallerModeChange?: (active: boolean) => void
   launchInstallerDirect?: boolean
+  launchInstallerProductId?: string
 }
 
 interface AddDeviceOverlayProps {
@@ -33,6 +34,7 @@ interface AddDeviceOverlayProps {
   onDeviceConnected?: (device: Device) => void
   onInstallerModeChange?: (active: boolean) => void
   launchInstallerDirect?: boolean
+  launchInstallerProductId?: string
 }
 
 type AddDeviceView =
@@ -320,6 +322,7 @@ export function DevicesOverlay({
   onDeviceSelect,
   onInstallerModeChange,
   launchInstallerDirect,
+  launchInstallerProductId,
 }: DevicesOverlayProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [showAddDeviceOverlay, setShowAddDeviceOverlay] = useState(false)
@@ -568,13 +571,14 @@ export function DevicesOverlay({
         }}
         onInstallerModeChange={onInstallerModeChange}
         launchInstallerDirect={launchInstallerDirect}
+        launchInstallerProductId={launchInstallerProductId}
       />
     </AnimatePresence>
   )
 }
 
 // Secondary Overlay for Adding Devices
-function AddDeviceOverlay({ isOpen, onClose, onDeviceAdd, onDeviceConnected, onInstallerModeChange, launchInstallerDirect }: AddDeviceOverlayProps) {
+function AddDeviceOverlay({ isOpen, onClose, onDeviceAdd, onDeviceConnected, onInstallerModeChange, launchInstallerDirect, launchInstallerProductId }: AddDeviceOverlayProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [view, setView] = useState<AddDeviceView>("categories")
   const [selectedCategoryId, setSelectedCategoryId] = useState<DeviceCategoryId>("scales")
@@ -673,14 +677,14 @@ function AddDeviceOverlay({ isOpen, onClose, onDeviceAdd, onDeviceConnected, onI
   useEffect(() => {
     if (!isOpen || !launchInstallerDirect) return
 
-    const defaultBcaProduct = PAIRABLE_PRODUCTS.find((p) => p.id === "goodflip-scale")
-    if (!defaultBcaProduct) return
+    const targetProduct = PAIRABLE_PRODUCTS.find((p) => p.id === (launchInstallerProductId || "goodflip-scale"))
+    if (!targetProduct) return
 
-    setSelectedCategoryId("scales")
-    setSelectedProduct(defaultBcaProduct)
+    setSelectedCategoryId(targetProduct.categoryId)
+    setSelectedProduct(targetProduct)
     setInstallStep("connect")
     setView("installer")
-  }, [isOpen, launchInstallerDirect])
+  }, [isOpen, launchInstallerDirect, launchInstallerProductId])
 
   useEffect(() => {
     if (!isOpen || !isInstaller || installStep !== "pairing") return
