@@ -1,0 +1,917 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Motion utilities */
+  .transition-motion {
+    transition-property: transform, opacity, scale, rotate;
+    transition-duration: var(--ds-transition-normal);
+    transition-timing-function: var(--ds-ease-out);
+  }
+  
+  .transition-fast {
+    transition-duration: var(--ds-transition-fast);
+  }
+  
+  .transition-slow {
+    transition-duration: var(--ds-transition-slow);
+  }
+  
+  .ease-spring {
+    transition-timing-function: var(--ds-ease-spring);
+  }
+  
+  .ease-bounce {
+    transition-timing-function: var(--ds-ease-bounce);
+  }
+  
+  .ease-smooth {
+    transition-timing-function: var(--ds-ease-smooth);
+  }
+  
+  /* Reduced motion utilities */
+  @media (prefers-reduced-motion: reduce) {
+    .motion-reduce-safe {
+      transition-duration: var(--ds-transition-instant) !important;
+      animation-duration: var(--ds-transition-instant) !important;
+    }
+    
+    .motion-reduce-safe * {
+      transition-duration: var(--ds-transition-instant) !important;
+      animation-duration: var(--ds-transition-instant) !important;
+    }
+  }
+  
+  @keyframes slideLeft {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Waveform scale animation for bars */
+  @keyframes waveScale {
+    0% { transform: scaleY(0.7); }
+    50% { transform: scaleY(1.25); }
+    100% { transform: scaleY(0.7); }
+  }
+  .animate-wave-scale {
+    animation: waveScale 1.6s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  /* Horizontal shift for waveform track (creates flowing motion) */
+  @keyframes waveShift {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-wave-shift {
+    animation: waveShift 6s linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes hourglassTop {
+    0% {
+      height: 45%;
+    }
+    50% {
+      height: 5%;
+    }
+    100% {
+      height: 45%;
+    }
+  }
+
+  @keyframes hourglassBottom {
+    0% {
+      height: 0%;
+    }
+    50% {
+      height: 40%;
+    }
+    100% {
+      height: 0%;
+    }
+  }
+
+  /* Smooth background pan for visualizer */
+  @keyframes wavePan {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  .animate-wave-pan {
+    animation: wavePan 6s linear infinite;
+    background-size: 200% 100% !important;
+  }
+
+  /* Slower ping variants for subtle mic glow */
+  .animate-ping-slow {
+    animation: ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .animate-ping-slower {
+    animation: ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up var(--ds-motion-normal);
+  }
+  
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    vertical-align: middle;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    /* Improved alignment for Material Symbols */
+    user-select: none;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* App-specific color variables - Updated to Darker Zydus color scheme */
+    --app-primary: #2E9B8C;
+    --app-primary-hover: #237A6B;
+    --app-primary-rgb: 46, 155, 140;
+    --app-primary-light: #3BB5A3;
+    --app-secondary: #8B4982;
+    --app-secondary-hover: #6D3664;
+    --app-secondary-rgb: 139, 73, 130;
+    --app-tertiary: #C6804A;
+    --app-tertiary-hover: #A5683C;
+    --app-tertiary-rgb: 198, 128, 74;
+    --card-header-text: #000000;
+
+    /* Hero and UI specific colors */
+    --hero-bg-primary: #7dd3d8;
+    --hero-text-primary: #1a202c;
+    --hero-text-secondary: #2d3748;
+    --icon-bg-primary: var(--primary-alpha-10);
+    --icon-bg-secondary: var(--primary-alpha-15);
+
+    /* Banner specific colors */
+    --banner-bg-start: var(--primary-alpha-5);
+    --banner-bg-end: var(--primary-alpha-10);
+    --banner-border: var(--primary-alpha-20);
+
+    /* Chip/Badge specific colors */
+    --chip-bg-primary: var(--primary-alpha-10);
+    --chip-text-primary: #237A6B;
+    --chip-border-primary: var(--primary-alpha-20);
+
+    /* AI/Analysis specific colors */
+    --ai-button-bg-start: var(--app-primary);
+    --ai-button-bg-end: var(--app-primary-hover);
+    --ai-button-hover-start: var(--app-primary-hover);
+    --ai-button-hover-end: #164a73;
+    --ai-container-bg-start: var(--banner-bg-start);
+    --ai-container-bg-end: var(--banner-bg-end);
+    --ai-container-border: var(--chip-border-primary);
+    --ai-loading-border: var(--app-primary);
+    --ai-fab-gradient: linear-gradient(135deg, var(--app-primary) 0%, var(--app-primary-light) 50%, var(--app-secondary) 100%);
+
+    /* Health Assistant Gradient Schemes */
+    --health-assistant-active-start: var(--app-primary-light);
+    --health-assistant-active-middle: var(--app-primary);
+    --health-assistant-active-end: var(--app-primary-hover);
+    --health-assistant-active-shadow: var(--primary-alpha-30);
+    --health-assistant-inactive-start: var(--primary-alpha-10);
+    --health-assistant-inactive-middle: var(--primary-alpha-5);
+    --health-assistant-inactive-end: var(--primary-alpha-5);
+    --health-assistant-inactive-border: var(--primary-alpha-20);
+    --health-assistant-inactive-border-hover: var(--primary-alpha-30);
+
+    /* App Login Screen Gradient */
+    --app-login-gradient: linear-gradient(135deg, 
+      var(--primary-alpha-15) 0%, 
+      var(--primary-alpha-8) 20%, 
+      var(--secondary-alpha-8) 60%, 
+      var(--secondary-alpha-15) 100%);
+
+    /* Subtle Chat Interface Gradient */
+    --chat-interface-gradient: linear-gradient(135deg, 
+      var(--primary-alpha-5) 0%, 
+      var(--primary-alpha-5) 20%, 
+      var(--secondary-alpha-5) 60%, 
+      var(--secondary-alpha-5) 100%);
+
+    /* New Design Palette - Updated to new color scheme */
+    --text-primary: #2d3748; /* Primary text color */
+    --text-secondary: #718096; /* Secondary text color */
+    --text-muted: #a0aec0; /* Muted text color */
+    --bg-primary: #ffffff; /* Primary background color */
+    --bg-secondary: var(--primary-alpha-5); /* Very light teal */
+    --border-color: #e2e8f0; /* Border color */
+    --accent-primary: #2E9B8C; /* Primary accent color */
+    --accent-secondary: #237A6B; /* Secondary accent color */
+    --status-success: #8B4982; /* Success status color - using secondary */
+    --status-warning: #C6804A; /* Warning status color - using tertiary */
+    --status-error: #e53e3e; /* Error status color */
+    --status-info: #2E9B8C; /* Info status color - using primary */
+
+    /* Additional color variables for replacing hardcoded colors */
+    --orange-primary: #f15223; /* Primary orange color */
+    --beige-bg: #F5F1EB; /* Beige background color */
+    --gray-400: #9ca3af; /* Gray color for borders and elements */
+    --gray-500: #6b7280; /* Darker gray color */
+    --gray-300: #d1d5db; /* Light gray color */
+    --gray-200: #e5e7eb; /* Very light gray color */
+    --gray-100: #f3f4f6; /* Lightest gray color */
+    --slate-400: #94a3b8; /* Slate gray color */
+    --slate-600: #475569; /* Dark slate color */
+    --slate-700: #334155; /* Darker slate color */
+    
+    /* Chart and data visualization colors */
+    --chart-blue: #3b82f6; /* Blue for charts */
+    --chart-red: #ef4444; /* Red for charts */
+    --chart-orange: #fb923c; /* Orange for charts */
+    --chart-yellow: #fcd34d; /* Yellow for charts */
+    --chart-purple: #8b5cf6; /* Purple for charts */
+    --chart-pink: #ec4899; /* Pink for charts */
+    
+    /* Metric-specific semantic colors */
+    --metric-water: #3b82f6; /* Blue - hydration metrics */
+    --metric-blood-primary: #dc2626; /* Red - blood cells, heart rate */
+    --metric-blood-secondary: #ef4444; /* Light red - fatigue, errors */
+    --metric-nutrition-fat: #f59e0b; /* Orange - fat, omega-6 */
+    --metric-nutrition-diet: #fb923c; /* Light orange - diet tracking */
+    --metric-hormones: #ec4899; /* Pink - progesterone, hormonal */
+    --metric-hormones-secondary: #be185d; /* Dark pink - HbA1c */
+    --metric-sleep: #8b5cf6; /* Purple - sleep, prolactin */
+    --metric-muscle: #7c3aed; /* Violet - skeletal muscle */
+    --metric-vitamins-green: #10b981; /* Green - B12, time in range */
+    --metric-vitamins-yellow: #fbbf24; /* Yellow - vitamin D */
+    --metric-minerals: #6b7280; /* Gray - zinc, bone mass */
+    --metric-body-composition: #059669; /* Dark green - lean mass, weight */
+    --metric-cardiovascular: #06b6d4; /* Cyan - respiration rate */
+    --metric-activity: #14b8a6; /* Teal - steps, activity */
+    --metric-nutrition-carbs: #16a34a; /* Medium green - carbs, medication */
+    --metric-blood-pressure: #7c2d12; /* Brown - BP, blood glucose */
+    --metric-lab-panel: #2563eb; /* Bright blue - blood panel */
+    
+    /* Body diagram colors */
+    --body-skin: #fef3e8; /* Skin color */
+    --body-outline: #d4a574; /* Body outline color */
+    --body-accent: #fca5a5; /* Body accent color */
+    
+    /* Profile and overlay colors */
+    --profile-bg: #F8FAFB; /* Profile background color */
+
+    /* Hero gradient colors */
+    --hero-teal: #41B6B4; /* Hero teal color */
+    --hero-purple: #A855A5; /* Hero purple color */
+    --hero-indigo: #6366F1; /* Hero indigo color */
+    
+    /* Opacity scale tokens */
+    --opacity-0: 0;
+    --opacity-5: 0.05;
+    --opacity-10: 0.1;
+    --opacity-12: 0.12;
+    --opacity-14: 0.14;
+    --opacity-15: 0.15;
+    --opacity-18: 0.18;
+    --opacity-20: 0.2;
+    --opacity-25: 0.25;
+    --opacity-30: 0.3;
+    --opacity-40: 0.4;
+    --opacity-50: 0.5;
+    --opacity-60: 0.6;
+    --opacity-70: 0.7;
+    --opacity-80: 0.8;
+    --opacity-90: 0.9;
+    --opacity-95: 0.95;
+    --opacity-100: 1;
+    
+    /* White alpha tokens */
+    --white-alpha-10: rgba(255, 255, 255, 0.1);
+    --white-alpha-12: rgba(255, 255, 255, 0.12);
+    --white-alpha-14: rgba(255, 255, 255, 0.14);
+    --white-alpha-15: rgba(255, 255, 255, 0.15);
+    --white-alpha-18: rgba(255, 255, 255, 0.18);
+    --white-alpha-20: rgba(255, 255, 255, 0.2);
+    --white-alpha-25: rgba(255, 255, 255, 0.25);
+    --white-alpha-40: rgba(255, 255, 255, 0.4);
+    --white-alpha-70: rgba(255, 255, 255, 0.7);
+    --white-alpha-90: rgba(255, 255, 255, 0.9);
+    --white-alpha-95: rgba(255, 255, 255, 0.95);
+    
+    /* Black alpha tokens */
+    --black-alpha-5: rgba(0, 0, 0, 0.05);
+    --black-alpha-10: rgba(0, 0, 0, 0.1);
+    --black-alpha-20: rgba(0, 0, 0, 0.2);
+    --black-alpha-30: rgba(0, 0, 0, 0.3);
+    --black-alpha-50: rgba(0, 0, 0, 0.5);
+    --black-alpha-80: rgba(0, 0, 0, 0.8);
+    
+    /* Primary color alpha tokens */
+    --primary-alpha-5: rgba(var(--app-primary-rgb), 0.05);
+    --primary-alpha-8: rgba(var(--app-primary-rgb), 0.08);
+    --primary-alpha-10: rgba(var(--app-primary-rgb), 0.1);
+    --primary-alpha-15: rgba(var(--app-primary-rgb), 0.15);
+    --primary-alpha-20: rgba(var(--app-primary-rgb), 0.2);
+    --primary-alpha-30: rgba(var(--app-primary-rgb), 0.3);
+    --primary-alpha-40: rgba(var(--app-primary-rgb), 0.4);
+    --primary-alpha-50: rgba(var(--app-primary-rgb), 0.5);
+    
+    /* Secondary color alpha tokens */
+    --secondary-alpha-5: rgba(var(--app-secondary-rgb), 0.05);
+    --secondary-alpha-8: rgba(var(--app-secondary-rgb), 0.08);
+    --secondary-alpha-10: rgba(var(--app-secondary-rgb), 0.1);
+    --secondary-alpha-15: rgba(var(--app-secondary-rgb), 0.15);
+    --secondary-alpha-20: rgba(var(--app-secondary-rgb), 0.2);
+    
+    /* Tertiary color alpha tokens */
+    --tertiary-alpha-10: rgba(var(--app-tertiary-rgb), 0.1);
+    --tertiary-alpha-20: rgba(var(--app-tertiary-rgb), 0.2);
+    
+    /* Overlay and surface tokens */
+    --overlay-bg: rgba(255, 255, 255, 0.9);
+    --overlay-bg-heavy: rgba(255, 255, 255, 0.95);
+    --overlay-bg-light: rgba(255, 255, 255, 0.7);
+    --overlay-border: rgba(255, 255, 255, 0.2);
+    --overlay-border-light: rgba(255, 255, 255, 0.1);
+    --surface-elevated: rgba(255, 255, 255, 0.95);
+    --surface-glass: rgba(255, 255, 255, 0.8);
+    
+    /* Blue color alpha tokens (for interactive elements) */
+    --blue-alpha-15: rgba(59, 130, 246, 0.15);
+    --blue-alpha-30: rgba(59, 130, 246, 0.3);
+    --blue-alpha-40: rgba(59, 130, 246, 0.4);
+    --blue-alpha-60: rgba(59, 130, 246, 0.6);
+    
+    /* Red color alpha tokens (for error/pain states) */
+    --red-alpha-25: rgba(239, 68, 68, 0.25);
+    --red-alpha-30: rgba(239, 68, 68, 0.3);
+    --red-alpha-40: rgba(239, 68, 68, 0.4);
+    
+    /* Orange/Yellow pain intensity tokens */
+    --orange-alpha-25: rgba(251, 146, 60, 0.25);
+    --yellow-alpha-25: rgba(250, 204, 21, 0.25);
+    
+    /* Gradient color alpha tokens */
+    --gradient-indigo-alpha: rgba(99, 102, 241, 0.22);
+    --gradient-purple-alpha: rgba(139, 92, 246, 0.20);
+    --gradient-purple-light: rgba(139, 92, 246, 0.15);
+    --gradient-pink-alpha: rgba(236, 72, 153, 0.18);
+    --gradient-pink-light: rgba(236, 72, 153, 0.15);
+    --gradient-blue-alpha: rgba(59, 130, 246, 0.21);
+    --gradient-blue-light: rgba(59, 130, 246, 0.15);
+    --gradient-teal-alpha: rgba(16, 185, 129, 0.19);
+    
+    /* Shadow color alpha tokens */
+    --shadow-indigo-alpha: rgba(99, 102, 241, 0.18);
+    --shadow-purple-alpha: rgba(139, 92, 246, 0.12);
+    
+    /* Mobile frame gradient */
+    --mobile-frame-gradient: linear-gradient(135deg, var(--primary-alpha-8) 0%, var(--primary-alpha-5) 50%, var(--tertiary-alpha-8) 100%);
+    
+    /* Design System Tokens - Text Colors */
+    --ds-text-default: #ffffff;
+    --ds-text-primary: #1f2937;
+    --ds-text-secondary: #6b7280;
+    --ds-text-muted: #9ca3af;
+    --ds-text-disabled: #d1d5db;
+    --ds-text-inverse: #ffffff;
+    --ds-text-link: #3b82f6;
+    --ds-text-link-hover: #2563eb;
+    
+    /* Design System Tokens - Surface Colors */
+    --ds-surface-default: #ffffff;
+    --ds-surface-primary: #ffffff;
+    --ds-surface-secondary: #f9fafb;
+    --ds-surface-tertiary: #f3f4f6;
+    --ds-surface-inverse: #111827;
+    --ds-surface-overlay: #ffffff;
+    --ds-surface-elevated: #ffffff;
+    --ds-surface-sunken: #f9fafb;
+    
+    /* Design System Tokens - Border Colors */
+    --ds-border-default: #e5e7eb;
+    --ds-border-subtle: #f3f4f6;
+    --ds-border-strong: #d1d5db;
+    --ds-border-inverse: #374151;
+    --ds-border-focus: #3b82f6;
+    --ds-border-error: #ef4444;
+    --ds-border-warning: #f59e0b;
+    --ds-border-success: #10b981;
+    
+    /* Design System Tokens - Focus Ring */
+    --ds-focus-ring: #3b82f6;
+    --ds-focus-ring-offset: 2px;
+    --ds-focus-ring-width: 2px;
+    
+    /* Design System Tokens - Status Colors */
+    --ds-status-error: #ef4444;
+    --ds-status-error-bg: #fef2f2;
+    --ds-status-error-text: #dc2626;
+    --ds-status-warning: #f59e0b;
+    --ds-status-warning-bg: #fffbeb;
+    --ds-status-warning-text: #d97706;
+    --ds-status-success: #10b981;
+    --ds-status-success-bg: #ecfdf5;
+    --ds-status-success-text: #059669;
+    --ds-status-info: #3b82f6;
+    --ds-status-info-bg: #eff6ff;
+    --ds-status-info-text: #2563eb;
+    
+    /* Design System Tokens - Interactive Colors */
+    --ds-interactive-primary: #3b82f6;
+    --ds-interactive-primary-hover: #2563eb;
+    --ds-interactive-primary-active: #1d4ed8;
+    --ds-interactive-secondary: #6b7280;
+    --ds-interactive-secondary-hover: #4b5563;
+    --ds-interactive-disabled: #d1d5db;
+    
+    /* Design System Tokens - Semantic UI Colors */
+    --ds-blue-50: #eff6ff;
+    --ds-blue-100: #dbeafe;
+    --ds-blue-600: #2563eb;
+    --ds-blue-800: #1e40af;
+    --ds-green-50: #ecfdf5;
+    --ds-green-100: #d1fae5;
+    --ds-green-600: #059669;
+    --ds-green-800: #065f46;
+    --ds-yellow-50: #fffbeb;
+    --ds-yellow-100: #fef3c7;
+    --ds-yellow-600: #d97706;
+    --ds-yellow-800: #92400e;
+    --ds-red-50: #fef2f2;
+    --ds-red-100: #fee2e2;
+    --ds-red-600: #dc2626;
+    --ds-red-800: #991b1b;
+    --ds-orange-50: #fff7ed;
+    --ds-orange-100: #ffedd5;
+    --ds-orange-600: #ea580c;
+    --ds-orange-800: #9a3412;
+    --ds-purple-50: #faf5ff;
+    --ds-purple-100: #f3e8ff;
+    --ds-purple-600: #9333ea;
+    --ds-purple-800: #6b21a8;
+    --ds-gray-50: #f9fafb;
+    --ds-gray-100: #f3f4f6;
+    --ds-gray-200: #e5e7eb;
+    --ds-gray-300: #d1d5db;
+    --ds-gray-400: #9ca3af;
+    --ds-gray-500: #6b7280;
+    --ds-gray-600: #4b5563;
+    --ds-gray-700: #374151;
+    --ds-gray-800: #1f2937;
+    --ds-gray-900: #111827;
+    
+    /* Design System Tokens - Shadow */
+    --ds-shadow-default: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --ds-shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    /* Design System Tokens - Gradients */
+    --ds-gradient-primary: linear-gradient(135deg, #9333ea, #3b82f6);
+    --ds-gradient-success: linear-gradient(135deg, #10b981, #059669);
+    --ds-gradient-warning: linear-gradient(135deg, #f59e0b, #d97706);
+    --ds-gradient-error: linear-gradient(135deg, #ef4444, #dc2626);
+
+    /* Design System Tokens - Spacing */
+    --ds-space-xs: 0.25rem;    /* 4px */
+    --ds-space-sm: 0.5rem;     /* 8px */
+    --ds-space-md: 0.75rem;    /* 12px */
+    --ds-space-lg: 1rem;       /* 16px */
+    --ds-space-xl: 1.25rem;    /* 20px */
+    --ds-space-2xl: 1.5rem;    /* 24px */
+    --ds-space-3xl: 2rem;      /* 32px */
+    --ds-space-4xl: 2.5rem;    /* 40px */
+    --ds-space-5xl: 3rem;      /* 48px */
+
+    /* Design System Tokens - Layout */
+    --ds-card-padding: 1rem;           /* 16px */
+    --ds-card-padding-sm: 0.75rem;     /* 12px */
+    --ds-card-padding-lg: 1.5rem;      /* 24px */
+    --ds-container-padding: 1rem;      /* 16px */
+    --ds-section-gap: 1.5rem;          /* 24px */
+    --ds-item-gap: 0.5rem;            /* 8px */
+    --ds-header-height: 4rem;          /* 64px */
+    --ds-nav-height: 5rem;             /* 80px */
+
+    /* Design System Tokens - Border Radius */
+    --ds-radius-xs: 0.125rem;   /* 2px */
+    --ds-radius-sm: 0.25rem;    /* 4px */
+    --ds-radius-md: 0.375rem;   /* 6px */
+    --ds-radius-lg: 0.5rem;     /* 8px */
+    --ds-radius-xl: 0.75rem;    /* 12px */
+    --ds-radius-2xl: 1rem;      /* 16px */
+    --ds-radius-3xl: 1.5rem;    /* 24px */
+    --ds-radius-full: 9999px;
+    
+    /* Design System Tokens - Motion & Transitions */
+    --ds-transition-instant: 0ms ease-out;
+    --ds-transition-fast: 150ms ease-out;
+    --ds-transition-normal: 300ms ease-out;
+    --ds-transition-slow: 500ms ease-out;
+    --ds-transition-slower: 750ms ease-out;
+    
+    /* Easing Functions */
+    --ds-ease-linear: linear;
+    --ds-ease-in: ease-in;
+    --ds-ease-out: ease-out;
+    --ds-ease-in-out: ease-in-out;
+    --ds-ease-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ds-ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ds-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ds-ease-sharp: cubic-bezier(0.4, 0, 0.6, 1);
+    
+    /* Combined Motion Tokens */
+    --ds-motion-instant: var(--ds-transition-instant);
+    --ds-motion-fast: var(--ds-transition-fast);
+    --ds-motion-normal: var(--ds-transition-normal);
+    --ds-motion-slow: var(--ds-transition-slow);
+    --ds-motion-slower: var(--ds-transition-slower);
+    
+    /* Spring Animations */
+    --ds-motion-spring-fast: 150ms var(--ds-ease-spring);
+    --ds-motion-spring-normal: 300ms var(--ds-ease-spring);
+    --ds-motion-spring-slow: 500ms var(--ds-ease-spring);
+    
+    /* Bounce Animations */
+    --ds-motion-bounce-fast: 150ms var(--ds-ease-bounce);
+    --ds-motion-bounce-normal: 300ms var(--ds-ease-bounce);
+    --ds-motion-bounce-slow: 500ms var(--ds-ease-bounce);
+    
+    /* Smooth Animations (for UI elements) */
+    --ds-motion-smooth-fast: 150ms var(--ds-ease-smooth);
+    --ds-motion-smooth-normal: 300ms var(--ds-ease-smooth);
+    --ds-motion-smooth-slow: 500ms var(--ds-ease-smooth);
+    
+    /* Healthcare-specific motion presets */
+    --ds-motion-alert: var(--ds-motion-fast);           /* For alerts and notifications */
+    --ds-motion-interaction: var(--ds-motion-normal);   /* For button hovers, clicks */
+    --ds-motion-modal: var(--ds-motion-smooth-normal);  /* For modal/dialog animations */
+    --ds-motion-page: var(--ds-motion-smooth-slow);     /* For page transitions */
+    --ds-motion-data: var(--ds-motion-slow);            /* For data loading states */
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Dark mode background colors - blue theme */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: rgba(74, 144, 194, 0.05); /* Very light blue for dark mode */
+
+    /* Dark mode text colors */
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #888888;
+
+    /* Dark mode hero and UI colors */
+    --hero-bg-primary: #1e5a8a;
+    --hero-text-primary: #ffffff;
+    --hero-text-secondary: #e2e8f0;
+    --icon-bg-primary: rgba(74, 144, 194, 0.2);
+    --icon-bg-secondary: rgba(74, 144, 194, 0.25);
+
+    /* Dark mode banner colors */
+    --banner-bg-start: rgba(74, 144, 194, 0.08);
+    --banner-bg-end: rgba(74, 144, 194, 0.12);
+    --banner-border: rgba(74, 144, 194, 0.3);
+
+    /* Dark mode chip/badge colors */
+    --chip-bg-primary: rgba(74, 144, 194, 0.2);
+    --chip-text-primary: #4a90c2;
+    --chip-border-primary: rgba(74, 144, 194, 0.3);
+
+    /* Dark mode AI/Analysis colors */
+    --ai-button-bg-start: #4a90c2;
+    --ai-button-bg-end: #1e5a8a;
+    --ai-button-hover-start: #1e5a8a;
+    --ai-button-hover-end: #164a73;
+    --ai-container-bg-start: rgba(74, 144, 194, 0.08);
+    --ai-container-bg-end: rgba(74, 144, 194, 0.12);
+    --ai-container-border: rgba(74, 144, 194, 0.3);
+    --ai-loading-border: #4a90c2;
+    --ai-fab-gradient: linear-gradient(135deg, #4a90c2 0%, #2774ae 50%, #8b5cf6 100%);
+
+    /* Dark mode Health Assistant colors */
+    --health-assistant-active-start: #4a90c2;
+    --health-assistant-active-middle: #2774ae;
+    --health-assistant-active-end: #1e5a8a;
+    --health-assistant-active-shadow: rgba(74, 144, 194, 0.4);
+    --health-assistant-inactive-start: rgba(74, 144, 194, 0.15);
+    --health-assistant-inactive-middle: rgba(74, 144, 194, 0.08);
+    --health-assistant-inactive-end: rgba(74, 144, 194, 0.08);
+    --health-assistant-inactive-border: rgba(74, 144, 194, 0.25);
+    --health-assistant-inactive-border-hover: rgba(74, 144, 194, 0.35);
+    
+    /* Dark mode chart colors */
+    --chart-blue: #60a5fa;
+    --chart-red: #f87171;
+    --chart-orange: #fb923c;
+    --chart-yellow: #facc15;
+    --chart-purple: #a78bfa;
+    --chart-pink: #f9a8d4;
+    
+    /* Dark mode metric-specific semantic colors */
+    --metric-water: #60a5fa;
+    --metric-blood-primary: #ef4444;
+    --metric-blood-secondary: #f87171;
+    --metric-nutrition-fat: #fbbf24;
+    --metric-nutrition-diet: #fdba74;
+    --metric-hormones: #f9a8d4;
+    --metric-hormones-secondary: #db2777;
+    --metric-sleep: #a78bfa;
+    --metric-muscle: #8b5cf6;
+    --metric-vitamins-green: #34d399;
+    --metric-vitamins-yellow: #fde047;
+    --metric-minerals: #9ca3af;
+    --metric-body-composition: #10b981;
+    --metric-cardiovascular: #22d3ee;
+    --metric-activity: #2dd4bf;
+    --metric-nutrition-carbs: #22c55e;
+    --metric-blood-pressure: #92400e;
+    --metric-lab-panel: #3b82f6;
+    
+    /* Dark mode opacity tokens - redefine for dark theme */
+    --overlay-bg: rgba(17, 24, 39, 0.9);
+    --overlay-bg-heavy: rgba(17, 24, 39, 0.95);
+    --overlay-bg-light: rgba(17, 24, 39, 0.7);
+    --overlay-border: rgba(255, 255, 255, 0.1);
+    --overlay-border-light: rgba(255, 255, 255, 0.05);
+    --surface-elevated: rgba(31, 41, 55, 0.95);
+    --surface-glass: rgba(31, 41, 55, 0.8);
+    
+    /* Dark mode alpha adjustments */
+    --white-alpha-10: rgba(255, 255, 255, 0.1);
+    --white-alpha-20: rgba(255, 255, 255, 0.2);
+    --black-alpha-50: rgba(0, 0, 0, 0.5);
+    
+    /* Design System Tokens - Dark Mode Text Colors */
+    --ds-text-default: #ffffff;
+    --ds-text-primary: #f9fafb;
+    --ds-text-secondary: #d1d5db;
+    --ds-text-muted: #9ca3af;
+    --ds-text-disabled: #6b7280;
+    --ds-text-inverse: #1f2937;
+    --ds-text-link: #60a5fa;
+    --ds-text-link-hover: #3b82f6;
+    
+    /* Design System Tokens - Dark Mode Surface Colors */
+    --ds-surface-default: #111827;
+    --ds-surface-primary: #1f2937;
+    --ds-surface-secondary: #374151;
+    --ds-surface-tertiary: #4b5563;
+    --ds-surface-inverse: #f9fafb;
+    --ds-surface-overlay: #1f2937;
+    --ds-surface-elevated: #374151;
+    --ds-surface-sunken: #0f172a;
+    
+    /* Design System Tokens - Dark Mode Border Colors */
+    --ds-border-default: #4b5563;
+    --ds-border-subtle: #374151;
+    --ds-border-strong: #6b7280;
+    --ds-border-inverse: #e5e7eb;
+    --ds-border-focus: #60a5fa;
+    --ds-border-error: #f87171;
+    --ds-border-warning: #fbbf24;
+    --ds-border-success: #34d399;
+    
+    /* Design System Tokens - Dark Mode Focus Ring */
+    --ds-focus-ring: #60a5fa;
+    --ds-focus-ring-offset: 2px;
+    --ds-focus-ring-width: 2px;
+    
+    /* Design System Tokens - Dark Mode Status Colors */
+    --ds-status-error: #f87171;
+    --ds-status-error-bg: #431a1a;
+    --ds-status-error-text: #f87171;
+    --ds-status-warning: #fbbf24;
+    --ds-status-warning-bg: #453c1a;
+    --ds-status-warning-text: #fbbf24;
+    --ds-status-success: #34d399;
+    --ds-status-success-bg: #14352f;
+    --ds-status-success-text: #34d399;
+    --ds-status-info: #60a5fa;
+    --ds-status-info-bg: #1e3a8a;
+    --ds-status-info-text: #60a5fa;
+    
+    /* Design System Tokens - Dark Mode Interactive Colors */
+    --ds-interactive-primary: #60a5fa;
+    --ds-interactive-primary-hover: #3b82f6;
+    --ds-interactive-primary-active: #2563eb;
+    --ds-interactive-secondary: #9ca3af;
+    --ds-interactive-secondary-hover: #d1d5db;
+    --ds-interactive-disabled: #4b5563;
+    
+    /* Design System Tokens - Dark Mode Semantic UI Colors */
+    --ds-blue-50: #1e3a8a;
+    --ds-blue-100: #1d4ed8;
+    --ds-blue-600: #3b82f6;
+    --ds-blue-800: #60a5fa;
+    --ds-green-50: #14352f;
+    --ds-green-100: #065f46;
+    --ds-green-600: #10b981;
+    --ds-green-800: #34d399;
+    --ds-yellow-50: #453c1a;
+    --ds-yellow-100: #78350f;
+    --ds-yellow-600: #f59e0b;
+    --ds-yellow-800: #fbbf24;
+    --ds-red-50: #431a1a;
+    --ds-red-100: #7f1d1d;
+    --ds-red-600: #ef4444;
+    --ds-red-800: #f87171;
+    --ds-orange-50: #431a16;
+    --ds-orange-100: #7c2d12;
+    --ds-orange-600: #f97316;
+    --ds-orange-800: #fb923c;
+    --ds-purple-50: #3c1f78;
+    --ds-purple-100: #581c87;
+    --ds-purple-600: #8b5cf6;
+    --ds-purple-800: #a78bfa;
+    --ds-gray-50: #374151;
+    --ds-gray-100: #4b5563;
+    --ds-gray-200: #6b7280;
+    --ds-gray-300: #9ca3af;
+    --ds-gray-400: #d1d5db;
+    --ds-gray-500: #f3f4f6;
+    --ds-gray-600: #f9fafb;
+    --ds-gray-700: #ffffff;
+    --ds-gray-800: #ffffff;
+    --ds-gray-900: #ffffff;
+  }
+}
+
+/* Hide scrollbars for webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbars for Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbars for Internet Explorer and Edge */
+* {
+  -ms-overflow-style: none;
+}
+
+/* Ensure body and html can still scroll */
+html,
+body {
+  overflow: auto;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+  }
+}
+
+
+@keyframes slide-in-from-right-2 {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.slide-in-from-right-2 {
+  animation-name: slide-in-from-right-2;
+}
+
+.fill-mode-forwards {
+  animation-fill-mode: forwards;
+}

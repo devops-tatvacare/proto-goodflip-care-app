@@ -1,0 +1,50 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#FFF0F5" opacity="0.3"/>
+  
+  <!-- Person figure -->
+  <g transform="translate(40, 70)">
+    <!-- Head -->
+    <circle cx="25" cy="25" r="12" fill="#FF8A65"/>
+    <!-- Body -->
+    <rect x="18" y="35" width="14" height="25" rx="7" fill="#FF8A65"/>
+    <!-- Arms -->
+    <rect x="10" y="38" width="30" height="8" rx="4" fill="#FF8A65"/>
+    <!-- Legs -->
+    <rect x="18" y="55" width="6" height="20" rx="3" fill="#37474F"/>
+    <rect x="26" y="55" width="6" height="20" rx="3" fill="#37474F"/>
+  </g>
+  
+  <!-- Target -->
+  <g transform="translate(100, 60)">
+    <!-- Outer ring -->
+    <circle cx="40" cy="40" r="38" fill="#90CAF9" stroke="#1976D2" stroke-width="3"/>
+    <!-- Middle ring -->
+    <circle cx="40" cy="40" r="26" fill="#64B5F6"/>
+    <!-- Inner ring -->
+    <circle cx="40" cy="40" r="14" fill="#42A5F5"/>
+    <!-- Center/Heart -->
+    <path d="M40 35 C38 33 35 33 33 35 C31 37 31 40 33 42 L40 49 L47 42 C49 40 49 37 47 35 C45 33 42 33 40 35 Z" fill="#FF6F00"/>
+  </g>
+  
+  <!-- Arrow -->
+  <g transform="translate(45, 65)">
+    <line x1="0" y1="40" x2="35" y2="20" stroke="#37474F" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="35,20 42,22 38,15" fill="#37474F"/>
+  </g>
+  
+  <!-- Stand for target -->
+  <rect x="135" y="140" width="10" height="40" rx="2" fill="#37474F"/>
+  <rect x="125" y="175" width="30" height="8" rx="2" fill="#37474F"/>
+  
+  <!-- Success checkmark -->
+  <g transform="translate(155, 140)">
+    <circle cx="15" cy="15" r="12" fill="#FFC107"/>
+    <path d="M8 15 L12 19 L22 9" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  
+  <!-- Decorative elements -->
+  <circle cx="160" cy="40" r="4" fill="#FFB74D" opacity="0.6"/>
+  <circle cx="35" cy="35" r="3" fill="#90CAF9" opacity="0.6"/>
+  <circle cx="170" cy="70" r="2" fill="#64B5F6" opacity="0.8"/>
+</svg>

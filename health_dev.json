@@ -1,0 +1,74 @@
+{
+  "_counters": {
+    "messages": 2,
+    "symptoms": 0,
+    "activities": 0,
+    "events": 4
+  },
+  "sessions": [
+    {
+      "id": "5d14f9b2-f358-4f36-8ddd-e28f5a83d4df",
+      "created_at": "2025-11-04T09:05:34.555Z"
+    },
+    {
+      "id": "69878634-42c0-4a76-911a-0c172df1e6d1",
+      "created_at": "2025-11-07T10:59:47.836Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "session_id": "69878634-42c0-4a76-911a-0c172df1e6d1",
+      "role": "assistant",
+      "content": "Hi! I can help you explore the program. Here are your options:",
+      "created_at": "2025-11-07T10:59:47.825Z"
+    },
+    {
+      "id": 2,
+      "session_id": "69878634-42c0-4a76-911a-0c172df1e6d1",
+      "role": "user",
+      "content": "Explore Your Program",
+      "created_at": "2025-11-07T10:59:47.828Z"
+    }
+  ],
+  "symptom_logs": [],
+  "activity_logs": [],
+  "events": [
+    {
+      "id": 1,
+      "session_id": "5d14f9b2-f358-4f36-8ddd-e28f5a83d4df",
+      "event_type": "session_created",
+      "occurred_at": "2025-11-04T09:05:34.555Z",
+      "route": "/api/chat/session",
+      "trace_id": null,
+      "context": null
+    },
+    {
+      "id": 2,
+      "session_id": "69878634-42c0-4a76-911a-0c172df1e6d1",
+      "event_type": "message_received",
+      "occurred_at": "2025-11-07T10:59:47.826Z",
+      "route": "/api/chat/message",
+      "trace_id": "1762513185574-7d2bkjdy2ya",
+      "context": "{\"length\":62}"
+    },
+    {
+      "id": 3,
+      "session_id": "69878634-42c0-4a76-911a-0c172df1e6d1",
+      "event_type": "message_sent",
+      "occurred_at": "2025-11-07T10:59:47.828Z",
+      "route": "/api/chat/message",
+      "trace_id": "1762513184771-qbl60fmmpmh",
+      "context": "{\"length\":20}"
+    },
+    {
+      "id": 4,
+      "session_id": "69878634-42c0-4a76-911a-0c172df1e6d1",
+      "event_type": "session_created",
+      "occurred_at": "2025-11-07T10:59:47.836Z",
+      "route": "/api/chat/session",
+      "trace_id": null,
+      "context": null
+    }
+  ]
+}
